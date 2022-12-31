@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Holtwood+One+SC&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Holtwood+One+SC&family=Rampart+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Dancing+Script&family=Holtwood+One+SC&family=Rampart+One&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       
+       .span
+        {
+            display: inline;
+            font-family:'Courier Prime', monospace;
+            color: black;
+            font-weight: bolder;
+            color: white;
+            font-size: 35px ;
+        }
+        body
+        {
+            font-family: 'Courier Prime', monospace;
+            font-size: 35px;
+            color: white;
+        }
+        .main_div
+        {
+            background-image: linear-gradient(purple,rgb(65, 24, 65));
+            width: 300px;
+            border-radius: 5px;
+            flex-direction: column;
+        }
+        .middle
+        {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            display:inline-block;
+
+        }
+        .second_div
+        {
+            background-image: linear-gradient(rgb(35, 125, 152),rgb(12, 34, 37));
+            width: 300px;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display:flex;
+    
+        }
+        .second_div button{
+            width: 50px;
+            height: 40px;
+            color: white;
+            font-size: 20px;
+            margin-top: 0px;
+            border-radius: 10%;
+            background-color: blueviolet;
+            flex-direction: row;
+            position: relative;
+            margin-left: 40px;
+        }
+        .second_div button:hover{
+            width: 50px;
+            height: 40px;
+            color: white;
+            font-size: 20px;
+            margin-top: 0px;
+            border-radius: 10%;
+            transition: 0.4s;
+            background-color: rgb(62, 21, 101);
+        }
+        .second_div button i{
+            margin: 0px;
+        }
+       .third_div
+       {
+            background-image: linear-gradient(rgb(112, 129, 36),rgb(48, 64, 11));
+            width: 300px;
+            border-radius: 5px;
+            height: 200px;
+            overflow-y:scroll ;
+       }
+       ::-webkit-scrollbar
+       {
+        background-color: black;
+        
+       }
+       ::-webkit-scrollbar-thumb
+       {
+        background-image: linear-gradient(black,grey);
+       }
+       ::-webkit-scrollbar-button
+       {
+            background-color: grey;
+            color: black;
+       }
+       #pause
+       {
+        display:none;
+       }
+       #getLap{
+        color: black;
+        font-family: 'Courier Prime', monospace;
+        font-size: 20px;
+       }
+       .para
+       {
+        
+        border-radius: 10px;
+       }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <center>
+    <div class="main_div middle">
+        <span class="span" id="minutes">00</span> :
+        <span class="span" id="seconds">00</span> :
+        <span class="span" id="microsec">00</span>
+
+        <div class="second_div">
+            <button id="refresh" onclick="refresh()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+            <button id="play" onclick="start()"><i class="fa fa-play" aria-hidden="true"></i></button>
+            <button id="pause" onclick="stop()"><i class="fa fa-pause" aria-hidden="true"></i></button>
+           
+            <button id="flag" onclick="lap()"><i class="fa fa-flag" aria-hidden="true"></i>   </button>
+        </div>
+        <div class="third_div" id="getLap">
+            <p id="para">
+
+            </p>
+        </div>
+    </div>
+    <p id="i" style="display: none;">0</p>
+    </center>
+
+    <script>
+        var min = document.getElementById('minutes')
+        var sec = document.getElementById('seconds')
+        var mic = document.getElementById('microsec')
+        var playButton = document.getElementById('play')
+        var pauseButton = document.getElementById('pause')
+        var z = document.getElementById('para')
+        var intervalOpen;
+        function start()
+        {
+            playButton.style.display='none'
+            pauseButton.style.display='block'
+            intervalOpen = setInterval(function()
+            {
+               var a = mic.innerText
+               var b = parseInt(a)+1
+               document.getElementById('microsec').innerText  = b
+               mic.innerText = mic.innerText.padStart(2,'0')
+               if(parseInt(mic.innerText)%100 == 0 && parseInt(mic.innerText)!=0){
+                sec.innerText++;
+                sec.innerText = sec.innerText.padStart(2,'0');
+                mic.innerText = "00"
+               }
+               if(parseInt(sec.innerText) % 60 == 0 && parseInt(sec.innerText) !=0  )
+               {
+                    min.innerText++;
+                    min.innerText = min.innerText.padStart(2,'0')
+                    sec.innerText = "00"
+               }
+            },10)
+        }
+        function stop()
+        {
+            playButton.style.display='block'
+            pauseButton.style.display='none'
+            clearInterval(intervalOpen)
+        }
+        function refresh()
+        {   
+            z.innerText = ' '
+            if(playButton.style.display=='none' || pauseButton.style.display == 'block')
+            {
+                playButton.style.display='block'
+                pauseButton.style.display='none '
+            }
+            clearInterval(intervalOpen)
+            mic.innerText = "00"
+            sec.innerText = "00"
+            min.innerText = "00"
+            
+            
+        }
+
+       
+        var x = document.getElementById('i')
+      function lap()
+        {
+           var get = x.innerText
+           var i = parseInt(get)+1; 
+           var a = mic.innerText  
+           var b = sec.innerText 
+           var c =  min.innerText 
+        //    var color = Math.random()*10
+        //    var make = color.toString(10)
+        //    var hex = make.slice(3,9)
+                
+                z.style.color='white'
+                z.innerHTML +="Lap "+" = " +c+" : "+b+" : "+a+"<br>"  
+            
+           
+        }
+
+    </script>
+</body> 
+</html>
